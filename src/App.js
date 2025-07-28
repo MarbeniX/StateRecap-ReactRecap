@@ -1,5 +1,7 @@
 import { useState } from "react";
+import Button from "./Components/Button";
 import "./index.css";
+import StepMessage from "./Components/StepMessage";
 
 const messages = [
     "Welcome to the first step!",
@@ -10,6 +12,13 @@ const messages = [
 export default function App() {
     const [step, setStep] = useState(1);
     const [open, setOpen] = useState(true);
+
+    function handleNext() {
+        setStep((prevStep) => (prevStep < 3 ? prevStep + 1 : prevStep));
+    }
+    function handlePrevious() {
+        setStep((prevStep) => (prevStep > 1 ? prevStep - 1 : prevStep));
+    }
 
     return (
         <>
@@ -24,27 +33,24 @@ export default function App() {
                         <div className={`${step >= 3 ? "active" : ""}`}>3</div>
                     </div>
 
-                    <p className="message">
-                        Step {step}: {messages[step - 1]}
-                    </p>
+                    <StepMessage step={step}>{messages[step - 1]}</StepMessage>
 
                     <div className="buttons">
-                        <button
-                            style={{ background: "#7950f2", color: "#fff" }}
-                            onClick={() =>
-                                setStep(step > 1 ? (s) => s - 1 : (s) => s)
-                            }
+                        <Button
+                            bgColor="#7950F2"
+                            txtColor="#fff"
+                            onClick={handlePrevious}
                         >
-                            Previous
-                        </button>
-                        <button
-                            style={{ background: "#7950f2", color: "#fff" }}
-                            onClick={() =>
-                                setStep(step < 3 ? (s) => s + 1 : (s) => s)
-                            }
+                            <span>Previous</span>
+                        </Button>
+
+                        <Button
+                            bgColor="#7950f2"
+                            txtColor="#fff"
+                            onClick={handleNext}
                         >
-                            Next
-                        </button>
+                            <span>Next</span>
+                        </Button>
                     </div>
                 </div>
             )}
